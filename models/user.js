@@ -9,12 +9,12 @@ const userSchema = new Schema(
   {
     name: {
       type: String,
-      required: true,
+      required: [true, "Name is required"],
       // default: "user",
     },
     password: {
       type: String,
-      minlength: 8,
+      minlength: 6,
       required: [true, "Set password for user"],
     },
     email: {
@@ -57,9 +57,9 @@ userSchema.post('save', handleMongooseError);
 // });
 
 const registerSchema = Joi.object({
-  name: Joi.string().required(),
+  name: Joi.string().min(2).required(),
   email: Joi.string().pattern(emailRegexp).required(),
-  password: Joi.string().min(8).required(),
+  password: Joi.string().min(6).required(),
 });
 
 // const loginSchema = Joi.object({
@@ -69,7 +69,7 @@ const registerSchema = Joi.object({
 
 const loginSchema = Joi.object({
   email: Joi.string().pattern(emailRegexp).required(),
-  password: Joi.string().min(8).required(),
+  password: Joi.string().min(6).required(),
 });
 
 // const updateSubscription = Joi.object({
