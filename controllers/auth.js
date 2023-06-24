@@ -1,17 +1,19 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const path = require('path');
-const fs = require('fs/promises');
-const gravatar = require('gravatar');
-const Jimp = require('jimp');
+// const path = require('path');
+// const fs = require('fs/promises');
+// // const gravatar = require('gravatar');
+// const Jimp = require('jimp');
 // const { nanoid } = require('nanoid');
 
-const avatarsDir = path.join(__dirname, '../', 'public', 'avatars');
+// const avatarsDir = path.join(__dirname, '../', 'public', 'avatars');
 
 const { User } = require('../models/user');
 
-const { HttpError, ctrlWrapper} = require('../helpers');
+// const { HttpError, ctrlWrapper, sendEmail } = require('../helpers');
+const { HttpError, ctrlWrapper } = require("../helpers");
 
+// const { SECRET_KEY, BASE_URL } = process.env;
 const { SECRET_KEY } = process.env;
 
 const register = async (req, res) => {
@@ -23,13 +25,13 @@ const register = async (req, res) => {
   }
 
   const hashPassword = await bcrypt.hash(password, 10);
-  const avatarURL = gravatar.url(email);
+  // // const avatarURL = gravatar.url(email);
   // const verificationToken = nanoid();
 
   const newUser = await User.create({
     ...req.body,
     password: hashPassword,
-    avatarURL,
+    // avatarURL,
     // verificationToken: verificationToken,
   });
 
@@ -42,7 +44,7 @@ const register = async (req, res) => {
   // await sendEmail(verifyEmail);
 
   res.status(201).json({
-    user: { email: newUser.email, subscription: newUser.subscription },
+    user: { email: newUser.email, name: newUser.name },
   });
 };
 
@@ -112,12 +114,21 @@ const login = async (req, res) => {
   });
 };
 
+// const getCurrent = async (req, res) => {
+//   const { email, subscription } = req.user;
+
+//   res.json({
+//     email,
+//     subscription,
+//   });
+// };
+
 const getCurrent = async (req, res) => {
-  const { email, subscription } = req.user;
+  const { email, name } = req.user;
 
   res.json({
     email,
-    subscription,
+    name,
   });
 };
 
@@ -128,50 +139,50 @@ const logout = async (req, res) => {
   res.status(204).json();
 };
 
-const updateSubscription = async (req, res) => {
-  console.log('hello world');
-  const { subscription } = req.body;
-  const { _id } = req.user;
+// const updateSubscription = async (req, res) => {
+//   console.log('hello world');
+//   const { subscription } = req.body;
+//   const { _id } = req.user;
 
-  const user = await User.findByIdAndUpdate(
-    _id,
-    { subscription },
-    {
-      new: true,
-    }
-  );
+//   const user = await User.findByIdAndUpdate(
+//     _id,
+//     { subscription },
+//     {
+//       new: true,
+//     }
+//   );
 
-  res.status(200).json({ email: user.email, subscription: user.subscription });
-};
+//   res.status(200).json({ email: user.email, subscription: user.subscription });
+// };
 
-const updateAvatar = async (req, res) => {
-  const { _id } = req.user;
-  const { path: tempUpload, originalname } = req.file;
-  await Jimp.read(tempUpload)
-    .then(image => {
-      return image.resize(250, 250).write(tempUpload);
-    })
-    .catch(err => {
-      console.log(err.message);
-    });
-  const filename = `${_id}_${originalname}`;
-  const resultUpload = path.join(avatarsDir, filename);
-  await fs.rename(tempUpload, resultUpload);
-  const avatarURL = path.join('avatars', filename);
-  await User.findByIdAndUpdate(_id, { avatarURL });
+// const updateAvatar = async (req, res) => {
+//   const { _id } = req.user;
+//   const { path: tempUpload, originalname } = req.file;
+//   await Jimp.read(tempUpload)
+//     .then(image => {
+//       return image.resize(250, 250).write(tempUpload);
+//     })
+//     .catch(err => {
+//       console.log(err.message);
+//     });
+//   const filename = `${_id}_${originalname}`;
+//   const resultUpload = path.join(avatarsDir, filename);
+//   await fs.rename(tempUpload, resultUpload);
+//   const avatarURL = path.join('avatars', filename);
+//   await User.findByIdAndUpdate(_id, { avatarURL });
 
-  res.json({
-    avatarURL,
-  });
-};
+//   res.json({
+//     avatarURL,
+//   });
+// };
 
 module.exports = {
   register: ctrlWrapper(register),
   login: ctrlWrapper(login),
   getCurrent: ctrlWrapper(getCurrent),
   logout: ctrlWrapper(logout),
-  updateSubscription: ctrlWrapper(updateSubscription),
-  updateAvatar: ctrlWrapper(updateAvatar),
+  // updateSubscription: ctrlWrapper(updateSubscription),
+  // updateAvatar: ctrlWrapper(updateAvatar),
   // verifyEmail: ctrlWrapper(verifyEmail),
   // resendVerifyEmail: ctrlWrapper(resendVerifyEmail),
 };
