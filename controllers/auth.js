@@ -139,6 +139,15 @@ const logout = async (req, res) => {
   res.status(204).json();
 };
 
+const updateUser = async (req, res) => {
+  const { _id } = req.params;
+  const result = await User.findByIdAndUpdate(_id, req.body, { new: true });
+  if (!result) {
+    throw HttpError(404, 'Not found ');
+  }
+  res.json(result);
+}
+
 // const updateSubscription = async (req, res) => {
 //   console.log('hello world');
 //   const { subscription } = req.body;
@@ -181,6 +190,7 @@ module.exports = {
   login: ctrlWrapper(login),
   getCurrent: ctrlWrapper(getCurrent),
   logout: ctrlWrapper(logout),
+  updateUser: ctrlWrapper(updateUser),
   // updateSubscription: ctrlWrapper(updateSubscription),
   // updateAvatar: ctrlWrapper(updateAvatar),
   // verifyEmail: ctrlWrapper(verifyEmail),
