@@ -29,6 +29,13 @@ router.get('/current', authenticate, ctrl.getCurrent);
 
 router.post('/logout', authenticate, ctrl.logout);
 
+router.put(
+  "/:_id",
+  authenticate,
+  validBody(schema.registerSchema),
+  ctrl.updateUser
+);
+
 // router.patch(
 //   '/',
 //   authenticate,
