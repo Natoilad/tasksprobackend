@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-// const path = require('path');
-// const fs = require('fs/promises');
+const path = require('path');
+const fs = require('fs/promises');
 // // const gravatar = require('gravatar');
 // const Jimp = require('jimp');
 // const { nanoid } = require('nanoid');
@@ -11,7 +11,7 @@ const jwt = require('jsonwebtoken');
 const { User } = require('../models/user');
 
 // const { HttpError, ctrlWrapper, sendEmail } = require('../helpers');
-const { HttpError, ctrlWrapper } = require("../helpers");
+const { HttpError, ctrlWrapper, cloudinary } = require("../helpers");
 
 // const { SECRET_KEY, BASE_URL } = process.env;
 const { SECRET_KEY } = process.env;
@@ -25,13 +25,16 @@ const register = async (req, res) => {
   }
 
   const hashPassword = await bcrypt.hash(password, 10);
-  // // const avatarURL = gravatar.url(email);
+  // const avatarURL = gravatar.url(email);
+
+  const avatarURL = "";
+
   // const verificationToken = nanoid();
 
   const newUser = await User.create({
     ...req.body,
     password: hashPassword,
-    // avatarURL,
+    avatarURL,
     // verificationToken: verificationToken,
   });
 
@@ -139,6 +142,15 @@ const logout = async (req, res) => {
   res.status(204).json();
 };
 
+const updateUser = async (req, res) => {
+  const { _id } = req.params;
+  const result = await User.findByIdAndUpdate(_id, req.body, { new: true });
+  if (!result) {
+    throw HttpError(404, 'Not found ');
+  }
+  res.json(result);
+}
+
 // const updateSubscription = async (req, res) => {
 //   console.log('hello world');
 //   const { subscription } = req.body;
@@ -176,13 +188,31 @@ const logout = async (req, res) => {
 //   });
 // };
 
+const updateAvatar = async (req, res) => {
+  const { _id } = req.user;
+  const { path: tempUpload } = req.file;
+  const resultUpload = await cloudinary.uploader.upload(tempUpload, {
+    folder: "avatars",
+    transformation: { height: 150, gravity: "face", crop: "thumb", aspect_ratio: 5/6, zoomed: 0.75 },
+  });
+
+  const avatarURL = resultUpload.secure_url;
+  await User.findByIdAndUpdate(_id, { avatarURL });
+  await fs.unlink(tempUpload);
+
+  res.json({
+    avatarURL,
+  });
+};
+
 module.exports = {
   register: ctrlWrapper(register),
   login: ctrlWrapper(login),
   getCurrent: ctrlWrapper(getCurrent),
   logout: ctrlWrapper(logout),
+  updateUser: ctrlWrapper(updateUser),
   // updateSubscription: ctrlWrapper(updateSubscription),
-  // updateAvatar: ctrlWrapper(updateAvatar),
+  updateAvatar: ctrlWrapper(updateAvatar),
   // verifyEmail: ctrlWrapper(verifyEmail),
   // resendVerifyEmail: ctrlWrapper(resendVerifyEmail),
 };

@@ -6,7 +6,7 @@ const {
   validBody,
   authenticate,
   // validSubscription,
-  // uploadAvatar,
+  uploadAvatar,
 } = require('../../middllware');
 
 const { schema } = require('../../models/user');
@@ -29,6 +29,13 @@ router.get('/current', authenticate, ctrl.getCurrent);
 
 router.post('/logout', authenticate, ctrl.logout);
 
+router.put(
+  "/:_id",
+  authenticate,
+  validBody(schema.registerSchema),
+  ctrl.updateUser
+);
+
 // router.patch(
 //   '/',
 //   authenticate,
@@ -36,11 +43,11 @@ router.post('/logout', authenticate, ctrl.logout);
 //   ctrl.updateSubscription
 // );
 
-// router.patch(
-//   '/avatars',
-//   authenticate,
-//   uploadAvatar.single('avatar'),
-//   ctrl.updateAvatar
-// );
+router.patch(
+  '/avatars',
+  authenticate,
+  uploadAvatar.single('avatar'),
+  ctrl.updateAvatar
+);
 
 module.exports = router;
