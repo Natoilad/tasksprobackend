@@ -57,39 +57,66 @@
           }
         }
       }
+    },
+    "/users/login": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "User login",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Login's object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Email or password invalid",
+            "content": {}
+          }
+        }
+      }
     }
   },
 
-  
   "components": {
     "schemas": {
       "RegistrationRequest": {
         "type": "object",
         "required": ["name", "email", "password"],
         "properties": {
-         "name": {
+          "name": {
             "type": "string",
             "description": "User's name",
-            "example": "Andrii Murlykin"
+            "example": "Andrii"
           },
           "email": {
             "type": "string",
             "description": "User's email",
-            "format": "email"
+            "format": "email",
+            "example": "Andrii@mail.com"
           },
           "password": {
             "type": "string",
             "description": "User's password",
             "example": "qwerty123"
-          },
-              "token": {
-      "type": "string",
-      "default": "''"
-    },
-    "avatarURL": {
-      "type": "string",
-      "required": true
-    }  
+          }
         }
       },
       "RegistrationResponse": {
@@ -102,16 +129,16 @@
               "description": "User's email",
               "format": "email"
             },
-            "userId": {
-              "type": "number",
-              "description": "User's id",
-              "example": "32143232436545474"
+            "name": {
+              "type": "string",
+              "description": "User's name",
+              "example": "Andrii"
             }
           }
         },
         "example": [
-          { "email": "1@gmail.com", "userId": "1" },
-          { "email": "2@gmail.com", "userId": "2" }
+          { "email": "1@gmail.com", "name": "User1" },
+          { "email": "2@gmail.com", "name": "User2" }
         ]
       }
     },
