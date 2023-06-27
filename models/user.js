@@ -1,9 +1,10 @@
-const { Schema, model } = require('mongoose');
-const Joi = require('joi');
+const { Schema, model } = require("mongoose");
+const Joi = require("joi");
 
-const { handleMongooseError } = require('../helpers');
+const { handleMongooseError } = require("../helpers");
 
-const emailRegexp = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+const emailRegexp =
+  /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
 const userSchema = new Schema(
   {
@@ -23,38 +24,23 @@ const userSchema = new Schema(
       match: emailRegexp,
       required: [true, "Email is required"],
     },
-    // subscription: {
-    //   type: String,
-    //   enum: ["starter", "pro", "business"],
-    //   default: "starter",
-    // },
+    theme: {
+      type: String,
+      enum: ["dark", "light", "violet"],
+      default: "dark",
+    },
     token: {
       type: String,
       default: "",
     },
     avatarURL: {
       type: String,
-      // required: true,
     },
-    // verify: {
-    //   type: Boolean,
-    //   default: false,
-    // },
-    // verificationToken: {
-    //   type: String,
-    //   required: [true, "Verify token is required"],
-    // },
   },
   { versionKey: false, timestamps: true }
 );
 
-userSchema.post('save', handleMongooseError);
-
-// const registerSchema = Joi.object({
-//   name: Joi.string(),
-//   email: Joi.string().required(),
-//   password: Joi.string().required(),
-// });
+userSchema.post("save", handleMongooseError);
 
 const registerSchema = Joi.object({
   name: Joi.string().min(2).required(),
@@ -62,33 +48,24 @@ const registerSchema = Joi.object({
   password: Joi.string().min(6).required(),
 });
 
-// const loginSchema = Joi.object({
-//   email: Joi.string().required(),
-//   password: Joi.string().required(),
-// });
-
 const loginSchema = Joi.object({
   email: Joi.string().pattern(emailRegexp).required(),
   password: Joi.string().min(6).required(),
 });
 
-// const updateSubscription = Joi.object({
-//   subscription: Joi.string().valid('starter', 'pro', 'business'),
-// });
-// const emailSchema = Joi.object({
-//   email: Joi.string().required(),
-// });
+const themeSchema = Joi.object({
+    theme: Joi.string().valid("dark", "light", "violet").required(),
+})
 
 const schema = {
   registerSchema,
   loginSchema,
-  // updateSubscription,
-  // emailSchema,
 };
 
-const User = model('user', userSchema);
+const User = model("user", userSchema);
 
 module.exports = {
   User,
   schema,
+  themeSchema,
 };
