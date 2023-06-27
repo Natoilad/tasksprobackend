@@ -59,12 +59,12 @@ const login = async (req, res) => {
 };
 
 const getCurrent = async (req, res) => {
-  const { email, name, _id } = req.user;
+  const { email, name, token } = req.user;
 
   res.json({
     email,
     name,
-    _id,
+    token,
   });
 };
 
