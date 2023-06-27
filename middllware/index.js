@@ -5,7 +5,7 @@ const {
 } = require('./middleware');
 const isValidId = require('./isValidId');
 const authenticate = require('./authenticate');
-const uploadAvatar = require('./uploadAvatar');
+const uploadAvatar = require("./uploadAvatar");
 
 module.exports = {
   validBody,

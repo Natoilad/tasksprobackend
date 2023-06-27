@@ -6,8 +6,9 @@ const swaggerDocument = require("./swagger.json");
 require('dotenv').config();
 
 const authRouter = require('./routes/api/auth');
-const contactsRouter = require('./routes/api/contacts');
-const  helpRouter  = require("./routes/api/help");
+// const contactsRouter = require('./routes/api/contacts');
+const helpRouter = require("./routes/api/help");
+const { boardsRouter } = require("./routes/api");
 const app = express();
 
 const formatsLogger = app.get('env') === 'development' ? 'dev' : 'short';
@@ -20,7 +21,8 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use('/auth', authRouter);
 
-app.use('/api/contacts', contactsRouter);
+// app.use('/api/contacts', contactsRouter);
+app.use("/api/boards", boardsRouter);
 app.use('/api', helpRouter)
 app.use((req, res) => {
   res.status(404).json({ message: 'Not found' });

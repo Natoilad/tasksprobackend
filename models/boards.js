@@ -44,6 +44,6 @@ const Board = model("board", boardSchema);
 
 module.exports = {
     Board,
-    boardSchema,
+    // boardSchema,
     addBoardSchema,
 };

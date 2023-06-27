@@ -1,15 +1,15 @@
 const { ctrlWrapper } = require("../../helpers");
-const addBoard = require('./addBoard');
-const listBoards = require('./listBoards');
-const getBoardById = require('./getBoardById');
-const removeBoard = require('./removeBoard');
-const updateBoard = require('./updateBoard');
+const listBoards = require("./listBoards");
+const getBoardById = require("./getBoardById");
+const addBoard = require("./addBoard");
+const removeBoard = require("./removeBoard");
+const updateBoard = require("./updateBoard");
 
 
 module.exports = {
-    addBoard: ctrlWrapper(addBoard),
     listBoards: ctrlWrapper(listBoards),
     getBoardById: ctrlWrapper(getBoardById),
+    addBoard: ctrlWrapper(addBoard),
     removeBoard: ctrlWrapper(removeBoard),
     updateBoard: ctrlWrapper(updateBoard),
-}
+};
