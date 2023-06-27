@@ -6,11 +6,11 @@ const columnSchema = new Schema({
         type: String,
         required: [true, "Set Title for Column"],
     },
-    boardId: {
-        type: Schema.Types.ObjectId,
-        ref: "board",
-        required: true,
-    },
+    // boardId: {
+    //     type: Schema.Types.ObjectId,
+    //     ref: "board",
+    //     required: true,
+    // },
 });
 
 const addColumnSchema = Joi.object({
