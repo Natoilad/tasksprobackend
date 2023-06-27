@@ -7,7 +7,8 @@ require('dotenv').config();
 
 const authRouter = require('./routes/api/auth');
 const contactsRouter = require('./routes/api/contacts');
-const  helpRouter  = require("./routes/api/help");
+const helpRouter = require("./routes/api/help");
+const getBoard = require('./routes/api/boards');
 const app = express();
 
 const formatsLogger = app.get('env') === 'development' ? 'dev' : 'short';
@@ -22,6 +23,7 @@ app.use('/auth', authRouter);
 
 app.use('/api/contacts', contactsRouter);
 app.use('/api', helpRouter)
+app.use("/api/boards", getBoard)
 app.use((req, res) => {
   res.status(404).json({ message: 'Not found' });
 });

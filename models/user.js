@@ -11,12 +11,16 @@ const userSchema = new Schema(
     name: {
       type: String,
       required: [true, "Name is required"],
-      // default: "user",
     },
     password: {
       type: String,
       minlength: 6,
       required: [true, "Set password for user"],
+    },
+    theme: {
+      type: String,
+      enum: ["dark", "light", "violet"],
+      default: "dark",
     },
     email: {
       type: String,
@@ -24,11 +28,7 @@ const userSchema = new Schema(
       match: emailRegexp,
       required: [true, "Email is required"],
     },
-    theme: {
-      type: String,
-      enum: ["dark", "light", "violet"],
-      default: "dark",
-    },
+
     token: {
       type: String,
       default: "",
@@ -53,19 +53,20 @@ const loginSchema = Joi.object({
   password: Joi.string().min(6).required(),
 });
 
-const themeSchema = Joi.object({
-    theme: Joi.string().valid("dark", "light", "violet").required(),
-})
-
 const schema = {
   registerSchema,
   loginSchema,
 };
-
+const themeSchema = Joi.object({
+  theme: Joi.string().valid("dark", "light", "violet").required(),
+});
 const User = model("user", userSchema);
-
+const emailSchema = Joi.object({
+  email: Joi.string().pattern(emailRegexp).required(),
+});
 module.exports = {
   User,
   schema,
   themeSchema,
+  emailSchema,
 };

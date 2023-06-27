@@ -8,13 +8,15 @@ const {
   uploadAvatar,
 } = require('../../middllware');
 
-const { schema, themeSchema } = require('../../models/user');
-
+const { schema } = require('../../models/user');
+const { themeSchema } = require("../../models/index");
 const router = express.Router();
 
 router.post('/register', validBody(schema.registerSchema), ctrl.register);
 
 router.post('/login', validBody(schema.loginSchema), ctrl.login);
+
+router.patch("/theme", authenticate, validBody(themeSchema), ctrl.updateTheme)
 
 router.get('/current', authenticate, ctrl.getCurrent);
 
@@ -26,8 +28,6 @@ router.put(
   validBody(schema.registerSchema),
   ctrl.updateUser
 );
-
-router.patch("/theme", authenticate, validBody(themeSchema), ctrl.updateTheme)
 
 router.patch(
   '/avatars',
