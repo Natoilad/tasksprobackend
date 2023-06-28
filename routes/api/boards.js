@@ -11,6 +11,7 @@ boardsRouter.post("/", authenticate, validBody(addBoardSchema), addBoard);
 boardsRouter.get("/", authenticate, listBoards);
 boardsRouter.get('/:boardId', authenticate, getBoardById);
 boardsRouter.put("/:boardId", authenticate, isValidBoardId, validBody(addBoardSchema), updateBoard);
+boardsRouter.patch("/:boardId", authenticate, isValidBoardId, validBody(addBoardSchema), updateBoard);
 boardsRouter.delete("/:boardId", authenticate, isValidBoardId, removeBoard);
 
 boardsRouter.post("/:boardId/columns", authenticate, validBody(addColumnSchema), addColumn);
