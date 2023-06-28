@@ -143,7 +143,7 @@
     },
     "/auth/current": {
       "get": {
-        "tags": ["User"],
+        "tags": ["Auth"],
         "summary": "Get current user info",
         "parameters": [],
         "security": [{ "Bearer": [] }],
@@ -154,6 +154,47 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/currentResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorUnauthorized"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/theme": {
+      "patch": {
+        "tags": ["Auth"],
+        "summary": "Change current user's theme",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Change theme's object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangeThemeRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChangeThemeResponse"
                 }
               }
             }
@@ -316,6 +357,29 @@
             "format": "email",
             "example": "Ema@mail.com"
           }
+        }
+      }
+    },
+    "ChangeThemeRequest": {
+      "type": "object",
+      "required": ["theme"],
+      "properties": {
+        "theme": {
+          "type": "string",
+          "description": "User's theme",
+          "enum": ["dark", "light", "violet"],
+          "example": "dark"
+        }
+      }
+    },
+    "ChangeThemeResponse": {
+      "type": "object",
+      "properties": {
+        "theme": {
+          "type": "string",
+          "description": "User's theme",
+          "enum": ["dark", "light", "violet"],
+          "example": "dark"
         }
       }
     },
