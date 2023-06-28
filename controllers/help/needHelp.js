@@ -3,7 +3,7 @@ const { sendEmail } = require("../../helpers");
 const needHelp = async (req, res) => {
     const { email, comment } = req.body;
     const helpEmail = {
-        to: "shubinanri@gmail.com",
+        to: "q0979318881@gmail.com",
         subject: `New ticket from email ${email}`,
         html: `<h2> User comments</h2>
         <p style="font-size:18px"">${comment}</p>
