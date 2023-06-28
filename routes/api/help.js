@@ -1,9 +1,9 @@
 const express = require("express");
 const ctrl = require("../../controllers/help");
-const needHelp  = require("../../controllers/help/needHelp");
+const needHelp = require("../../controllers/help/needHelp");
 
 const { helpSchema } = require("../../models");
-const {  validBody, authenticate } = require("../../middllware");
+const { validBody, authenticate } = require("../../middlewares");
 
 const helpRouter = express.Router();
 

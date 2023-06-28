@@ -6,7 +6,7 @@ const {
   validBody,
   authenticate,
   uploadAvatar,
-} = require('../../middllware');
+} = require('../../middlewares');
 
 const { schema } = require('../../models/user');
 const { themeSchema } = require("../../models/index");

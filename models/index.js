@@ -1,4 +1,4 @@
-const { User,  emailSchema, themeSchema, profileSchema } = require("./user");
+const { User, emailSchema, themeSchema, profileSchema } = require("./user");
 const { helpSchema } = require("./help");
 const { Board, boardSchema, addBoardSchema } = require("./boards");
 const { columnSchema, addColumnSchema } = require("./columns");
@@ -18,5 +18,4 @@ module.exports = {
     Task,
     addTaskSchema,
     updateSchema,
-    updateColumnSchema,
 };

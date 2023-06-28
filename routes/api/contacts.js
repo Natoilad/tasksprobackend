@@ -2,11 +2,11 @@ const express = require('express');
 const {
   validBody,
   validFavoriteBody,
-} = require('../../middllware/middleware.js');
+} = require('../../middlewares/middleware.js');
 const ctrl = require('../../controllers/contact-controllers.js');
 const { schema } = require('../../models/contact.js');
-const isValidId = require('../../middllware/isValidId.js');
-const authenticate = require('../../middllware/authenticate.js');
+const isValidId = require('../../middlewares/isValidId.js');
+const authenticate = require('../../middlewares/authenticate.js');
 
 const router = express.Router();
 router.get('/', authenticate, ctrl.listContacts);

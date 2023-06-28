@@ -58,15 +58,10 @@ const updateSchema = Joi.object({
     deadline: Joi.date(),
 });
 
-const updateColumnSchema = Joi.object({
-    columnId: Joi.string().required(),
-});
-
 const Task = model("task", taskSchema);
 
 module.exports = {
     Task,
     addTaskSchema,
     updateSchema,
-    updateColumnSchema
 };
