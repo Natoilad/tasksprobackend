@@ -6,6 +6,9 @@ const {
 const isValidId = require('./isValidId');
 const authenticate = require('./authenticate');
 const uploadAvatar = require('./uploadAvatar');
+const isValidBoardId = require("./isValidBoardId");
+const isValidBoardColumnId = require("./isValidBoardColumnId");
+const isValidTaskId = require("./isValidTaskId");
 
 module.exports = {
   validBody,
@@ -14,4 +17,7 @@ module.exports = {
   authenticate,
   validSubscription,
   uploadAvatar,
+  isValidBoardId,
+  isValidBoardColumnId,
+  isValidTaskId,
 };

@@ -1,4 +1,5 @@
 const { Board } = require("../../models");
+const { Task } = require("../../models");
 const { HttpError } = require("../../helpers");
 
 const removeColumn = async (req, res) => {
@@ -8,9 +9,8 @@ const removeColumn = async (req, res) => {
         throw HttpError(404, "Not found");
     }
 
-    //тут надо прописать удаление тасок
-
-    res.status(200).json({ result });
+    await Task.deleteMany({ columnId: columnId });
+    res.status(200).json({ message: "Column delete successfully" });
 }
 
 module.exports = removeColumn;
