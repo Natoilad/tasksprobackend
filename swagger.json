@@ -211,6 +211,47 @@
           }
         }
       }
+    },
+    "/auth/avatars": {
+      "patch": {
+        "tags": ["Auth"],
+        "summary": "Change user's avatar",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Change avatar's object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAvatarRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateAvatarResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorUnauthorized"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
 
@@ -380,6 +421,27 @@
           "description": "User's theme",
           "enum": ["dark", "light", "violet"],
           "example": "dark"
+        }
+      }
+    },
+    "UpdateAvatarRequest": {
+      "type": "object",
+      "required": ["avatarURL"],
+      "properties": {
+        "avatarURL": {
+          "type": "string",
+          "description": "User's avatar",
+          "example": "avatar.png"
+        }
+      }
+    },
+    "UpdateAvatarResponse": {
+      "type": "object",
+      "properties": {
+        "avatarURL": {
+          "type": "string",
+          "description": "User's avatar URL",
+          "example": "http://res.cloudinary.com/avatar.jpg"
         }
       }
     },
