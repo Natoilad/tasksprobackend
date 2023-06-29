@@ -1,13 +1,13 @@
 const authRouter = require('./auth');
-const contactsRouter = require('./contacts');
 const helpRouter = require('./help');
 const boardsRouter = require('./boards');
 const tasksRouter = require('./tasks');
+const backgroundsRouter = require("./backgrounds");
 
 module.exports = {
-    authRouter,
-    contactsRouter,
-    helpRouter,
-    boardsRouter,
-    tasksRouter,
+  authRouter,
+  helpRouter,
+  boardsRouter,
+  tasksRouter,
+  backgroundsRouter,
 };
