@@ -3,7 +3,7 @@ const { helpSchema } = require("./help");
 const { Board, boardSchema, addBoardSchema } = require("./boards");
 const { columnSchema, addColumnSchema } = require("./columns");
 const { Task, addTaskSchema, updateSchema, updateColumnSchema } = require("./tasks");
-const { backgroundSchema } = require("./background");
+const { Background } = require("./background");
 
 module.exports = {
   User,
@@ -19,5 +19,5 @@ module.exports = {
   Task,
   addTaskSchema,
   updateSchema,
-  backgroundSchema,
+  Background,
 };
