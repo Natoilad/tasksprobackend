@@ -1,18 +1,24 @@
-const { Schema } = require("mongoose");
-// const Joi = require("joi");
+const { Schema, model } = require("mongoose");
+const { handleMongooseError } = require("../helpers");
 
 const backgroundSchema = new Schema({
-  url: {
+  desktop: {
     type: String,
     required: true,
   },
-  altText: {
+  tablet: {
+    type: String,
+    required: true,
+  },
+  mobile: {
     type: String,
     required: true,
   },
 });
 
+backgroundSchema.post("save", handleMongooseError);
+const Background = model("background", backgroundSchema);
 
 module.exports = {
-  backgroundSchema,
+  Background,
 };
