@@ -23,7 +23,7 @@ const listBackgrounds = async (req, res) => {
     });
     const bgIcons = await cloudinary.url(resource.public_id, {
       responsive: true,
-      transformation: [{ dpr: "auto", width: "28px", height: "28px",  crop: "scale" }],
+      transformation: [{ dpr: "auto", width: "28", height: "28",  crop: "scale" }],
     });
 
     const isExisBackground = await Background.findOne({
