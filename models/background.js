@@ -14,6 +14,10 @@ const backgroundSchema = new Schema({
     type: String,
     required: true,
   },
+  bgIcons: {
+    type: String,
+    required: true,
+  },
 });
 
 backgroundSchema.post("save", handleMongooseError);

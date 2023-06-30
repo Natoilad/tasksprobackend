@@ -12,7 +12,6 @@ const boardSchema = new Schema(
     icon: {
       type: String,
       enum: [
-        "none",
         "icon-dashbordicon1",
         "icon-star",
         "icon-loading-spin",

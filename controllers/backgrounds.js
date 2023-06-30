@@ -21,21 +21,26 @@ const listBackgrounds = async (req, res) => {
       responsive: true,
       transformation: [{ dpr: "auto", width: "auto", crop: "scale" }],
     });
+    const bgIcons = await cloudinary.url(resource.public_id, {
+      responsive: true,
+      transformation: [{ dpr: "auto", width: "28px", height: "28px",  crop: "scale" }],
+    });
 
     const isExisBackground = await Background.findOne({
       mobile,
       desktop,
       tablet,
+      bgIcons,
     });
     
     if (isExisBackground) {
       
-      return { mobile, desktop, tablet };
+      return { mobile, desktop, tablet, bgIcons };
 
     } else {
-      const background = new Background({ mobile, desktop, tablet });
+      const background = new Background({ mobile, desktop, tablet, bgIcons });
       await background.save();
-      return { mobile, desktop, tablet };
+      return { mobile, desktop, tablet, bgIcons };
     }
     
     })
