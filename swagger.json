@@ -308,7 +308,7 @@
         }
       }
     },
-    "/auth/": {
+    "/auth/{_id}": {
       "put": {
         "tags": ["Auth"],
         "summary": "User update",
@@ -465,14 +465,350 @@
             }
           },
           "400": {
-            "description": "Bad request (invalid request body)",
+            "description": "missing fields"
+          },
+          "401": {
+            "description": "Unauthorized",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/errorBadRequestResponse"
+                  "$ref": "#/components/schemas/errorUnauthorized"
                 }
               }
             }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {}
+          }
+        }
+      },
+      "get": {
+        "tags": ["Boards"],
+        "summary": "Information about boards",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "List of all boards",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AllBoardsResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorUnauthorized"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/api/boards/{boardId}": {
+      "get": {
+        "tags": ["Boards"],
+        "summary": "Information about board by id",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "boardId",
+            "required": true,
+            "type": "string",
+            "description": "User's boardId"
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Information about board",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddBoardResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "${boardId} is not valid id"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorUnauthorized"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {}
+          }
+        }
+      },
+      "put": {
+        "tags": ["Boards"],
+        "summary": "Update user's board by id",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "boardId",
+            "required": true,
+            "type": "string",
+            "description": "User's boardId"
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Update board",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddBoardRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Information about board",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddBoardResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "${boardId} is not valid id"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorUnauthorized"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {}
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Boards"],
+        "summary": "Delete user's board by id",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "boardId",
+            "required": true,
+            "type": "string",
+            "description": "User's boardId"
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Board delete successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteBoardResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "${boardId} is not valid id"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorUnauthorized"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/api/boards/{boardId}/columns": {
+      "post": {
+        "tags": ["Boards"],
+        "summary": "Create new columns",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "boardId",
+            "required": true,
+            "type": "string",
+            "description": "User's boardId"
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Add column",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddColumnRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Column is created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddColumnResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "missing fields"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorUnauthorized"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/api/boards/{boardId}/columns/{columnId}": {
+      "patch": {
+        "tags": ["Boards"],
+        "summary": "Update user's column by id",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "boardId",
+            "required": true,
+            "type": "string",
+            "description": "User's boardId"
+          },
+          {
+            "in": "path",
+            "name": "columnId",
+            "required": true,
+            "type": "string",
+            "description": "User's columnId"
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Update column",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddColumnRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Information about update column",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateColumnResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "is not valid id"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorUnauthorized"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {}
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Boards"],
+        "summary": "Delete user's column by id",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "boardId",
+            "required": true,
+            "type": "string",
+            "description": "User's boardId"
+          },
+          {
+            "in": "path",
+            "name": "columnId",
+            "required": true,
+            "type": "string",
+            "description": "User's columnId"
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Column delete successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteColumnResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "${boardId} is not valid id"
           },
           "401": {
             "description": "Unauthorized",
@@ -798,7 +1134,7 @@
         "properties": {
           "title": {
             "type": "string",
-            "description": "Board's title",
+            "description": "Board title",
             "example": "Project"
           }
         }
@@ -808,32 +1144,167 @@
         "properties": {
           "title": {
             "type": "string",
-            "description": "Board's title",
+            "description": "Board title",
             "example": "Project"
           },
           "icon": {
             "type": "string",
-            "description": "Board's icon",
+            "description": "Board icon",
             "example": "none"
           },
           "background": {
-            "type": "string",
-            "description": "Board's background",
-            "example": "none"
+            "type": "array",
+            "example": "[]"
           },
           "owner": {
             "type": "string",
-            "description": "Board's owner",
+            "description": "Board owner",
             "example": "649df51a76097dd89a5e683e"
           },
           "_id": {
             "type": "string",
-            "description": "Board's _id",
+            "description": "Board _id",
             "example": "649ed254e11de14db5d22f9a"
           },
           "columns": {
             "type": "array",
             "example": "[]"
+          }
+        }
+      },
+      "AllBoardsResponse": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "_id": {
+              "type": "string",
+              "description": "Board _id",
+              "example": "649ed254e11de14db5d22f9a"
+            },
+            "title": {
+              "type": "string",
+              "description": "Board title",
+              "example": "Project"
+            },
+            "icon": {
+              "type": "string",
+              "description": "Board icon",
+              "example": "none"
+            },
+            "owner": {
+              "type": "string",
+              "description": "Board owner",
+              "example": "649df51a76097dd89a5e683e"
+            },
+            "columns": {
+              "type": "array",
+              "example": "[]"
+            }
+          }
+        },
+        "example": [
+          {
+            "_id": "649ed254e11de14db5d22f9a",
+            "title": "test",
+            "icon": "none",
+            "owner": "649df51a76097dd89a5e683e",
+            "columns": []
+          },
+          {
+            "_id": "800ed254e11de14db5d22f9a",
+            "title": "test2",
+            "icon": "none",
+            "owner": "649df51a76097dd89a5e683e",
+            "columns": []
+          }
+        ]
+      },
+      "DeleteBoardResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Board delete successfully",
+            "example": "Board delete successfully"
+          }
+        }
+      },
+      "AddColumnRequest": {
+        "type": "object",
+        "required": ["title"],
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Column title",
+            "example": "Test project"
+          }
+        }
+      },
+      "AddColumnResponse": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "Board _id",
+            "example": "649ed254e11de14db5d22f9a"
+          },
+          "title": {
+            "type": "string",
+            "description": "Board title",
+            "example": "Project"
+          },
+          "icon": {
+            "type": "string",
+            "description": "Board icon",
+            "example": "none"
+          },
+          "background": {
+            "type": "array",
+            "example": "[]"
+          },
+          "owner": {
+            "type": "string",
+            "description": "Board owner",
+            "example": "649df51a76097dd89a5e683e"
+          },
+          "columns": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string",
+                  "description": "Column title",
+                  "example": "Test project"
+                },
+                "_id": {
+                  "type": "string",
+                  "description": "Column _id",
+                  "example": "649f5686103a4d020b7d393b"
+                }
+              }
+            }
+          }
+        }
+      },
+      "UpdateColumnResponse": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Column title",
+            "example": "Project"
+          }
+        }
+      },
+      "DeleteColumnResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Column delete successfully",
+            "example": "Column delete successfully"
           }
         }
       },
