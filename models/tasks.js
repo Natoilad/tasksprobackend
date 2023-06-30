@@ -12,9 +12,9 @@ const taskSchema = new Schema(
             type: String,
             default: "",
         },
-        colorLabel: {
+        priority: {
             type: String,
-            enum: ["blue", "pink", "green", "gray"],
+            enum: ["low", "medium", "high", "none"],
             default: "gray",
         },
         deadline: {
@@ -44,7 +44,7 @@ taskSchema.post("save", handleMongooseError);
 const addTaskSchema = Joi.object({
     title: Joi.string().min(3).max(100).required(),
     description: Joi.string().max(1000),
-    colorLabel: Joi.string().valid("blue", "pink", "green", "gray"),
+    priority: Joi.string().valid("low", "medium", "high", "none"),
     deadline: Joi.string(),
     userId: Joi.string().required(),
     boardId: Joi.string().required(),
@@ -54,7 +54,7 @@ const addTaskSchema = Joi.object({
 const updateSchema = Joi.object({
     title: Joi.string().min(3).max(30),
     description: Joi.string().max(1000),
-    colorLabel: Joi.string().valid("blue", "pink", "green", "gray"),
+    priority: Joi.string().valid("low", "medium", "high", "none"),
     deadline: Joi.date(),
 });
 
