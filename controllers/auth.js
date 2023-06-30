@@ -1,6 +1,5 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const fs = require("fs/promises");
 
 const { User } = require("../models/user");
 
@@ -100,7 +99,6 @@ const updateAvatar = async (req, res) => {
 
   const avatarURL = resultUpload.secure_url;
   await User.findByIdAndUpdate(_id, { avatarURL });
-  await fs.unlink(tempUpload);
 
   res.json({
     avatarURL,
