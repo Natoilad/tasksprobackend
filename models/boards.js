@@ -4,28 +4,35 @@ const { handleMongooseError } = require("../helpers");
 const Joi = require("joi");
 
 const boardSchema = new Schema(
-    {
-        title: {
-            type: String,
-            required: [true, "Set Title for Board"],
-        },
-        icon: {
-            type: String,
-            enum: ["none", "icon_1", "icon_2", "icon_3", "icon_4", "icon_5", "icon_6", "icon_7", "icon_8"],
-            default: "none",
-        },
-        background: {
-            type: String,
-            default: "none",
-        },
-        columns: [columnSchema],
-        owner: {
-            type: Schema.Types.ObjectId,
-            ref: "user",
-            required: true
-        },
+  {
+    title: {
+      type: String,
+      required: [true, "Set Title for Board"],
     },
-    { versionKey: false, timestamps: false }
+    icon: {
+      type: String,
+      enum: [
+        "none",
+        "icon-dashbordicon1",
+        "icon-star",
+        "icon-loading-spin",
+        "icon-puzzle-piece",
+        "icon-container",
+        "icon-lightning",
+        "icon-colors",
+        "icon-hexagon",
+      ],
+      default: "none",
+    },
+    background: [{ type: Schema.Types.ObjectId, ref: "Background" }],
+    columns: [columnSchema],
+    owner: {
+      type: Schema.Types.ObjectId,
+      ref: "user",
+      required: true,
+    },
+  },
+  { versionKey: false, timestamps: false }
 );
 
 boardSchema.post("save", handleMongooseError);

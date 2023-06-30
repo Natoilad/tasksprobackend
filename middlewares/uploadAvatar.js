@@ -1,9 +1,8 @@
 const multer = require('multer');
-const path = require('path');
+const { cloudinary } = require('../helpers');
 
-const tmpDir = path.join(__dirname, '../', 'tmp');
 const multerConfig = multer.diskStorage({
-  destination: tmpDir,
+  cloudinary: cloudinary,
   filename: (req, file, cb) => {
     cb(null, file.originalname);
   },
