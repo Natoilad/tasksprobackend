@@ -9,6 +9,7 @@ const uploadAvatar = require('./uploadAvatar');
 const isValidBoardId = require("./isValidBoardId");
 const isValidBoardColumnId = require("./isValidBoardColumnId");
 const isValidTaskId = require("./isValidTaskId");
+const isValidTaskColumnId = require("./isValidTaskColumnId");
 
 module.exports = {
   validBody,
@@ -20,4 +21,5 @@ module.exports = {
   isValidBoardId,
   isValidBoardColumnId,
   isValidTaskId,
+  isValidTaskColumnId,
 };
