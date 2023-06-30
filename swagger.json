@@ -23,7 +23,11 @@
     },
     {
       "name": "Help",
-      "description": "Backgrounds endpoints"
+      "description": "Help endpoints"
+    },
+    {
+      "name": "Boards",
+      "description": "Boards endpoints"
     }
   ],
   "paths": {
@@ -380,6 +384,112 @@
           }
         }
       }
+    },
+    "/api/help": {
+      "post": {
+        "tags": ["Help"],
+        "summary": "Send comment",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "User's message",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/HelpRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Email send",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HelpResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorBadRequestResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorUnauthorized"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/boards": {
+      "post": {
+        "tags": ["Boards"],
+        "summary": "Create new board",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Add board",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddBoardRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Board is created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddBoardResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorBadRequestResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorUnauthorized"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {}
+          }
+        }
+      }
     }
   },
 
@@ -654,6 +764,78 @@
           }
         },
         "example": [{}, {}, {}]
+      },
+      "HelpRequest": {
+        "type": "object",
+        "required": ["email", "comment"],
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email",
+            "example": "Ema@mail.com"
+          },
+          "comment": {
+            "type": "string",
+            "description": "User's message",
+            "example": "I need help"
+          }
+        }
+      },
+      "HelpResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Email send",
+            "example": "Email send"
+          }
+        }
+      },
+      "AddBoardRequest": {
+        "type": "object",
+        "required": ["title"],
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Board's title",
+            "example": "Project"
+          }
+        }
+      },
+      "AddBoardResponse": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Board's title",
+            "example": "Project"
+          },
+          "icon": {
+            "type": "string",
+            "description": "Board's icon",
+            "example": "none"
+          },
+          "background": {
+            "type": "string",
+            "description": "Board's background",
+            "example": "none"
+          },
+          "owner": {
+            "type": "string",
+            "description": "Board's owner",
+            "example": "649df51a76097dd89a5e683e"
+          },
+          "_id": {
+            "type": "string",
+            "description": "Board's _id",
+            "example": "649ed254e11de14db5d22f9a"
+          },
+          "columns": {
+            "type": "array",
+            "example": "[]"
+          }
+        }
       },
 
       "securitySchemes": {
