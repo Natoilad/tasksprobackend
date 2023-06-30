@@ -11,15 +11,19 @@
   },
   "consumes": ["application/json"],
   "produces": ["application/json"],
-  "servers": [{ "url": "http://localhost:4000" }],
+  "servers": [{ "url": "http://localhost:4001" }],
   "tags": [
     {
       "name": "Auth",
       "description": "Authorization endpoints"
     },
     {
-      "name": "User",
-      "description": "User endpoints"
+      "name": "Backgrounds",
+      "description": "Backgrounds endpoints"
+    },
+    {
+      "name": "Help",
+      "description": "Backgrounds endpoints"
     }
   ],
   "paths": {
@@ -352,6 +356,30 @@
           }
         }
       }
+    },
+    "/api/backgrounds": {
+      "get": {
+        "tags": ["Backgrounds"],
+        "summary": "Get background images",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "List of background images",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BackgroundsResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {}
+          }
+        }
+      }
     }
   },
 
@@ -602,14 +630,38 @@
             "example": "2023-06-29T21:32:43.696Z"
           }
         }
-      }
-    },
+      },
+      "BackgroundsResponse": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "desktop": {
+              "type": "string",
+              "description": "URL images for desktop",
+              "example": "https://res.cloudinary.com/dt8rosz17/image/upload/c_scale,dpr_auto,w_auto/v1/bg/bgboard-10_t3nxak"
+            },
+            "tablet": {
+              "type": "string",
+              "description": "URL images for tablet",
+              "example": "https://res.cloudinary.com/dt8rosz17/image/upload/c_scale,dpr_auto,w_auto/v1/bg/bgboard-10_t3nxak"
+            },
+            "mobile": {
+              "type": "string",
+              "description": "URL images for mobile",
+              "example": "https://res.cloudinary.com/dt8rosz17/image/upload/c_scale,dpr_auto,w_auto/v1/bg/bgboard-10_t3nxak"
+            }
+          }
+        },
+        "example": [{}, {}, {}]
+      },
 
-    "securitySchemes": {
-      "Bearer": {
-        "type": "http",
-        "scheme": "bearer",
-        "bearerFormat": "JWT"
+      "securitySchemes": {
+        "Bearer": {
+          "type": "http",
+          "scheme": "bearer",
+          "bearerFormat": "JWT"
+        }
       }
     }
   }
