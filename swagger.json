@@ -28,6 +28,10 @@
     {
       "name": "Boards",
       "description": "Boards endpoints"
+    },
+    {
+      "name": "Tasks",
+      "description": "Tasks endpoints"
     }
   ],
   "paths": {
@@ -614,6 +618,60 @@
           }
         }
       },
+      "patch": {
+        "tags": ["Boards"],
+        "summary": "Update user's board by id",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "boardId",
+            "required": true,
+            "type": "string",
+            "description": "User's boardId"
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Update board",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddBoardRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Information about board",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddBoardResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "${boardId} is not valid id"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorUnauthorized"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {}
+          }
+        }
+      },
       "delete": {
         "tags": ["Boards"],
         "summary": "Delete user's board by id",
@@ -826,6 +884,273 @@
           }
         }
       }
+    },
+    "/api/tasks": {
+      "post": {
+        "tags": ["Tasks"],
+        "summary": "Create new task",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Add task",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddTaskRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Task is created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddTaskResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "missing fields"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorUnauthorized"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {}
+          }
+        }
+      },
+      "get": {
+        "tags": ["Tasks"],
+        "summary": "Information about tasks",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "List of all tasks",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AllTasksResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorUnauthorized"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/api/tasks/{taskId}": {
+      "get": {
+        "tags": ["Tasks"],
+        "summary": "Information about task by id",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "taskId",
+            "required": true,
+            "type": "string",
+            "description": "User's taskId"
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Information about task",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddTaskResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "${taskId} is not valid id"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorUnauthorized"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {}
+          }
+        }
+      },
+      "put": {
+        "tags": ["Tasks"],
+        "summary": "Update user's task by id",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "taskId",
+            "required": true,
+            "type": "string",
+            "description": "User's taskId"
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Update task",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddTaskRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Information about task",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddTaskResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "${taskId} is not valid id"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorUnauthorized"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {}
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Tasks"],
+        "summary": "Delete user's task by id",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "taskId",
+            "required": true,
+            "type": "string",
+            "description": "User's taskId"
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Task delete successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteTaskResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "${taskId} is not valid id"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorUnauthorized"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/api/tasks/column/{columnId}": {
+      "get": {
+        "tags": ["Tasks"],
+        "summary": "Information about tasks by column",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "columnId",
+            "required": true,
+            "type": "string",
+            "description": "User's columnId"
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Information about tasks",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AllTasksByColumnIdResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "${columnId} is not valid id"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorUnauthorized"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {}
+          }
+        }
+      }
     }
   },
 
@@ -977,6 +1302,16 @@
             "description": "User's email",
             "format": "email",
             "example": "Ema@mail.com"
+          },
+          "token": {
+            "type": "string",
+            "description": "User's token",
+            "example": "eyJhbGciOiJkpXVCJ9.eyJpZ"
+          },
+          "theme": {
+            "type": "string",
+            "description": "User's theme",
+            "example": "dark"
           }
         }
       },
@@ -1005,12 +1340,12 @@
       },
       "UpdateAvatarRequest": {
         "type": "object",
-        "required": ["avatarURL"],
+        "required": ["avatar"],
         "properties": {
-          "avatarURL": {
+          "avatar": {
             "type": "string",
             "description": "User's avatar",
-            "example": "avatar.png"
+            "example": "avatar.jpg"
           }
         }
       },
@@ -1020,7 +1355,7 @@
           "avatarURL": {
             "type": "string",
             "description": "User's avatar URL",
-            "example": "http://res.cloudinary.com/avatar.jpg"
+            "example": "https://res.cloudinary.com/dt8rosz17/image/upload/v1688312887/avatars/d3lfhfyk0mudgdpgjh3g.jpg"
           }
         }
       },
@@ -1096,6 +1431,11 @@
               "type": "string",
               "description": "URL images for mobile",
               "example": "https://res.cloudinary.com/dt8rosz17/image/upload/c_scale,dpr_auto,w_auto/v1/bg/bgboard-10_t3nxak"
+            },
+            "bgIcons": {
+              "type": "string",
+              "description": "URL bgIcons",
+              "example": "https://res.cloudinary.com/dt8rosz17/image/upload/c_scale,dpr_auto,h_28,w_28/v1/bg/bgboard-7_jknnqu"
             }
           }
         },
@@ -1306,6 +1646,211 @@
             "description": "Column delete successfully",
             "example": "Column delete successfully"
           }
+        }
+      },
+      "AddTaskRequest": {
+        "type": "object",
+        "required": ["title", "userId", "boardId", "columnId"],
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Task title",
+            "example": "Task 1"
+          },
+          "userId": {
+            "type": "string",
+            "description": "User id",
+            "example": "649f3e954234f431e5e71503"
+          },
+          "boardId": {
+            "type": "string",
+            "description": "Board id",
+            "example": "64a133326b7cb2769225563d"
+          },
+          "columnId": {
+            "type": "string",
+            "description": "Column id",
+            "example": "64a136366b7cb27692255640"
+          }
+        }
+      },
+      "AddTaskResponse": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Task title",
+            "example": "Task 1"
+          },
+          "description": {
+            "type": "string",
+            "description": "Task text",
+            "example": "text"
+          },
+          "priority": {
+            "type": "string",
+            "description": "Task priority",
+            "example": "none"
+          },
+          "userId": {
+            "type": "string",
+            "description": "User id",
+            "example": "649f3e954234f431e5e71503"
+          },
+          "boardId": {
+            "type": "string",
+            "description": "Board id",
+            "example": "64a133326b7cb2769225563d"
+          },
+          "columnId": {
+            "type": "string",
+            "description": "Column id",
+            "example": "64a136366b7cb27692255640"
+          },
+          "_id": {
+            "type": "string",
+            "description": "Task id",
+            "example": "64a138351ece41a69ac0c067"
+          },
+          "createdAt": {
+            "type": "string",
+            "description": "Task is created",
+            "example": "2023-07-02T08:41:25.069Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "description": "Task is updated",
+            "example": "2023-07-02T08:41:25.069Z"
+          }
+        }
+      },
+      "AllTasksResponse": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "_id": {
+              "type": "string",
+              "description": "Task id",
+              "example": "64a138351ece41a69ac0c067"
+            },
+            "title": {
+              "type": "string",
+              "description": "Task title",
+              "example": "Task 1"
+            },
+            "description": {
+              "type": "string",
+              "description": "Task text",
+              "example": "text"
+            },
+            "priority": {
+              "type": "string",
+              "description": "Task priority",
+              "example": "none"
+            },
+            "userId": {
+              "type": "string",
+              "description": "User id",
+              "example": "649f3e954234f431e5e71503"
+            },
+            "boardId": {
+              "type": "string",
+              "description": "Board id",
+              "example": "64a133326b7cb2769225563d"
+            },
+            "columnId": {
+              "type": "string",
+              "description": "Column id",
+              "example": "64a136366b7cb27692255640"
+            }
+          }
+        },
+        "example": [
+          {
+            "_id": "64a138351ece41a69ac0c067",
+            "title": "task1",
+            "description": "",
+            "priority": "none",
+            "userId": "649f3e954234f431e5e71503",
+            "boardId": "64a133326b7cb2769225563d",
+            "columnId": "64a136366b7cb27692255640"
+          },
+          {
+            "_id": "77a138351ece41a69ac0c067",
+            "title": "task1",
+            "description": "",
+            "priority": "none",
+            "userId": "779f3e954234f431e5e71503",
+            "boardId": "77a133326b7cb2769225563d",
+            "columnId": "77a136366b7cb27692255640"
+          }
+        ]
+      },
+      "DeleteTaskResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Task delete successfully",
+            "example": "Task delete successfully"
+          }
+        }
+      },
+      "AllTasksByColumnIdResponse": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "_id": {
+              "type": "string",
+              "description": "Task id",
+              "example": "64a138351ece41a69ac0c067"
+            },
+            "title": {
+              "type": "string",
+              "description": "Task title",
+              "example": "Task 1"
+            },
+            "description": {
+              "type": "string",
+              "description": "Task text",
+              "example": "text"
+            },
+            "priority": {
+              "type": "string",
+              "description": "Task priority",
+              "example": "none"
+            },
+            "userId": {
+              "type": "string",
+              "description": "User id",
+              "example": "649f3e954234f431e5e71503"
+            },
+            "boardId": {
+              "type": "string",
+              "description": "Board id",
+              "example": "64a133326b7cb2769225563d"
+            }
+          },
+          "example": [
+            {
+              "_id": "64a138351ece41a69ac0c067",
+              "title": "task1",
+              "description": "",
+              "priority": "none",
+              "userId": "649f3e954234f431e5e71503",
+              "boardId": "64a133326b7cb2769225563d"
+            },
+            {
+              "_id": "77a138351ece41a69ac0c067",
+              "title": "task1",
+              "description": "",
+              "priority": "none",
+              "userId": "779f3e954234f431e5e71503",
+              "boardId": "77a133326b7cb2769225563d"
+            }
+          ]
         }
       },
 
