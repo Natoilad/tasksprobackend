@@ -53,18 +53,21 @@ const login = async (req, res) => {
 
   res.status(200).json({
     token: token,
-    user: { email: user.email, theme: user.theme },
+    user: { email: user.email, theme: user.theme, avatarUrl: user.avatarURL,
+    },
   });
 };
 
 const getCurrent = async (req, res) => {
-  const { email, name, token, theme } = req.user;
+
+  const { email, name, token, id, thema, avatarUrl  } = req.user;
+
+
+
 
   res.json({
-    email,
-    name,
-    token,
-    theme,
+     email, name, token, _id: id, thema, avatarUrl 
+
   });
 };
 
