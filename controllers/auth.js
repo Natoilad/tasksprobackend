@@ -28,7 +28,12 @@ const register = async (req, res) => {
   res.status(201).json({
     status: "success",
     message: "User created successfully",
-    user: { email: newUser.email, name: newUser.name },
+    user: {
+      email: newUser.email,
+      name: newUser.name,
+      _id: newUser._id,
+      theme: newUser.theme,
+    },
   });
 };
 
@@ -53,7 +58,13 @@ const login = async (req, res) => {
 
   res.status(200).json({
     token: token,
-    user: { email: user.email, theme: user.theme, avatarUrl: user.avatarURL },
+    user: {
+      email: user.email,
+      name: user.email,
+      theme: user.theme,
+      avatarUrl: user.avatarURL,
+      id: user._id,
+    },
   });
 };
 
@@ -78,8 +89,16 @@ const logout = async (req, res) => {
 };
 
 const updateUser = async (req, res) => {
-  const { _id } = req.params;
-  const result = await User.findByIdAndUpdate(_id, req.body, { new: true });
+  const { _id, password } = req.params;
+
+  const hashPassword = await bcrypt.hash(password, 10);
+
+  const updatedUser = await User.create({
+    ...req.body,
+    password: hashPassword,
+  });
+
+  const result = await User.findByIdAndUpdate(_id, updatedUser, { new: true });
   if (!result) {
     throw HttpError(404, "Not found ");
   }
@@ -111,6 +130,7 @@ const updateAvatar = async (req, res) => {
 const updateTheme = async (req, res) => {
   const { _id } = req.user;
   const { theme } = req.body;
+
   await User.findByIdAndUpdate(_id, { theme: theme }, { new: true });
 
   res.json({
