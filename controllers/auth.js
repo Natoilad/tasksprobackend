@@ -63,19 +63,19 @@ const login = async (req, res) => {
       name: user.email,
       theme: user.theme,
       avatarUrl: user.avatarURL,
-      id: user._id,
+      _id: user._id,
     },
   });
 };
 
 const getCurrent = async (req, res) => {
-  const { email, name, token, id, theme, avatarURL } = req.user;
+  const { email, name, token, _id, theme, avatarURL } = req.user;
 
   res.json({
     email,
     name,
     token,
-    _id: id,
+    _id,
     theme,
     avatarUrl: avatarURL,
   });
@@ -89,7 +89,8 @@ const logout = async (req, res) => {
 };
 
 const updateUser = async (req, res) => {
-  const { _id, password } = req.params;
+  const { _id } = req.params;
+  const { password } = req.body;
 
   const hashPassword = await bcrypt.hash(password, 10);
 
